@@ -28,8 +28,6 @@ android {
             ext.enableCrashlytics = false
             versionNameSuffix "-debug"
             minifyEnabled false
-            applicationIdSuffix '.dev'
-            manifestPlaceholders = [ appNameSuffix:" Dev"]
 
             resValue "string", "fabric_api_key", "12345"
             resValue "string", "play_billing_license_key", "12345"
@@ -38,7 +36,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    productFlavors {
+        devel {
+            manifestPlaceholders = [ appNameSuffix:" devel"]
+            applicationIdSuffix '.dev'
+        }
+        production {
+            manifestPlaceholders = [ appNameSuffix:""]
+        }
+    }
     lintOptions {
         disable 'MissingTranslation'
         disable 'ExtraTranslation'
