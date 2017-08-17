@@ -9,4 +9,7 @@
     <item
         android:id="@+id/action_lyrics"
         android:title="@string/menu_show_lyrics" />
+    <item
+        android:id="@+id/action_search_videos"
+        android:title="@string/search_videos" />
 </menu>

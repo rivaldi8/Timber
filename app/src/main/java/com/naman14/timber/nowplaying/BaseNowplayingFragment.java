@@ -15,6 +15,7 @@
 package com.naman14.timber.nowplaying;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -249,8 +250,34 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             case R.id.action_lyrics:
                 NavigationUtils.goToLyrics(getContext());
                 break;
+            case R.id.action_search_videos:
+                pauseMusicPlayer();
+                openSongSearchOnYouTubeApp();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void pauseMusicPlayer() {
+        if (MusicPlayer.isPlaying()) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playOrPause();
+                    if (recyclerView != null && recyclerView.getAdapter() != null)
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                }
+            }, 250);
+        }
+    }
+
+    private void openSongSearchOnYouTubeApp() {
+        Intent intent = new Intent(Intent.ACTION_SEARCH);
+        intent.setPackage("com.google.android.youtube");
+        intent.putExtra("query", MusicPlayer.getArtistName() + " " + MusicPlayer.getTrackName());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
